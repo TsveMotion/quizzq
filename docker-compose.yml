@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: quizzq_admin
+      POSTGRES_PASSWORD: your_secure_password
+      POSTGRES_DB: quizzq_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - quizzq_network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - quizzq_network
+
+networks:
+  quizzq_network:
+    driver: bridge
+
+volumes:
+  postgres_data: 
